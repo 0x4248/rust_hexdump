@@ -54,14 +54,14 @@ fn main() {
         return;
     }
 
-    let file = File::open(filename).expect("Failed to open file");
+    let file = File::open(filename).expect("Failed to open file: {}", filename);
     let mut reader = BufReader::new(file);
 
     let mut buf = [0; 16];
     let mut address = 0;
 
     loop {
-        let n = reader.read(&mut buf).expect("Failed to read from file");
+        let n = reader.read(&mut buf).expect("Failed to read from file {}", filename);
         if n == 0 {
             break;
         }
