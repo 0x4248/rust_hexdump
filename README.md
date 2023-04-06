@@ -1,4 +1,4 @@
-#  Rust hexdump
+# 💻 Rust hexdump
 
 The hexdump command written in rust.
 
