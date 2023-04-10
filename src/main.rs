@@ -60,8 +60,10 @@ fn main() {
 
     let mut buf = [0; 16];
     let mut address = 0;
-    let mut skipln = false;
     let mut printed_star = false;
+    let mut c;
+    println!("HEXDUMP: {}", filename);
+    println!("ADDRESS             DATA                     DATA                ASCII");
     loop {
         error_message = "Failed to read from file:".to_string();
         error_message.push_str(filename);
@@ -70,6 +72,20 @@ fn main() {
             break;
         }
 
+        let all_zero = buf.iter().all(|&val| val == 0); // check if all values are 0
+        if all_zero {
+            if !printed_star {
+                println!("*");
+                address += 16;
+                printed_star = true;
+            } else {
+                address += 16;
+            }
+
+            continue;
+        } else {
+            printed_star = false;
+        }
         if !binary_mode {
             if color_mode {
                 print!("\x1B[38;5;51m{:08x}\x1B[0m  ", address);
@@ -92,10 +108,13 @@ fn main() {
                         print!("{:08b} ", val);
                     }
                 } else if color_mode {
-                    if val < 128 && val != 0{
-                        print!("{:02x} ", val);
-                    } else {
+                    c = val as char;
+                    if val == 0x00 {
                         print!("\x1B[38;5;240m{:02x}\x1B[0m ", val);
+                    } else if c.is_ascii_alphanumeric() {
+                        print!("\x1B[32m{:02x}\x1B[0m ", val);
+                    } else {
+                        print!("{:02x} ", val);
                     }
                 } else {
                     print!("{:02x} ", val);
@@ -114,9 +133,10 @@ fn main() {
             for i in 0..n {
                 let c = buf[i] as char;
                 if c.is_ascii_alphanumeric() {
-                    print!("{}", c);
+                    print!("\x1B[32m{}\x1B[0m", c);
                 } else {
-                    print!(".");
+                    //print gray dot
+                    print!("\x1B[38;5;240m.\x1B[0m");
                 }
             }
         }
