@@ -5,7 +5,7 @@ The hexdump command written in rust.
 ## Usage
 
 ```
-hexdump [-b -c -bc -h] [FILENAME]
+hexdump [-b -c -q -h] [FILENAME]
 ```
 
 ## Options
@@ -28,13 +28,13 @@ hexdump -c [FILENAME]
 
 This will output the file in colour mode.
 
-### Binary and colour mode
+### Quiet mode
 
 ```
-hexdump -bc [FILENAME]
+hexdump -q [FILENAME]
 ```
 
-This will output the file in binary and colour mode.
+This will output the file in quiet mode.
 
 ### Help
 
