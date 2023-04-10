@@ -115,13 +115,20 @@ fn main() {
 
         if !binary_mode {
             print!(" ");
-
             for i in 0..n {
                 let c = buf[i] as char;
                 if c.is_ascii_alphanumeric() {
-                    print!("\x1B[32m{}\x1B[0m", c);
+                    if color_mode {
+                        print!("\x1B[32m{}\x1B[0m", c);
+                    } else {
+                        print!("{}", c);
+                    }
                 } else {
-                    print!("\x1B[38;5;240m.\x1B[0m");
+                    if color_mode {
+                        print!("\x1B[38;5;240m.\x1B[0m");
+                    } else {
+                        print!(".");
+                    }
                 }
             }
         }
