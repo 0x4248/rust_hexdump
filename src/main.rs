@@ -2,52 +2,34 @@ use std::env;
 use std::fs::File;
 use std::io::{BufReader, Read};
 
-fn print_usage() {
-    println!("Usage: hexdump [-b -c -bc -h] [FILENAME]");
-}
-
 fn print_help(){
     println!("Usage: hexdump [-b -c -bc -h] [FILENAME]");
     println!("\t-b\tBinary mode");
     println!("\t-c\tColor mode");
-    println!("\t-bc\tBinary mode and color mode");
     println!("\t-h\tHelp");
+    println!("\tFILENAME\tFile to be hexdumped");
 }
 
 fn main() {
     let args: Vec<String> = env::args().collect();
-    if args.len() != 2 && args.len() != 3 {
-        print_usage();
-        return;
-    }
-    if args[1] == "-h" {
-        print_help();
-        return;
-    }
-
     let mut binary_mode = false;
     let mut color_mode = false;
-    let filename = if args.len() == 3 {
-        if args[1] != "-b" && args[1] != "-c" && args[1] != "-bc" {
-            println!("Command not found: {}", args[1]);
-            print_usage();
+    let mut quiet = false;
+    let mut filename = "";
+    for arg in args.iter() {
+        if arg == "-b" {
+            binary_mode = true;
+        } else if arg == "-c" {
+            color_mode = true;
+        } else if arg == "-q" {
+            quiet = true;
+        } else if arg == "-h" {
+            print_help();
             return;
-        }
-        else if args[1] == "-b" {
-            binary_mode = true;
-        }else if args[1] == "-bc" {
-            binary_mode = true;
-            color_mode = true;
         } else {
-            color_mode = true;
+            filename = arg;
         }
-        &args[2]
-    } else if args.len() == 2 {
-        &args[1]
-    } else {
-        print_usage();
-        return;
-    };
+    }
 
     if !std::path::Path::new(filename).exists() {
         println!("File not found: {}", filename);
@@ -62,8 +44,12 @@ fn main() {
     let mut address = 0;
     let mut printed_star = false;
     let mut c;
-    println!("HEXDUMP: {}", filename);
-    println!("ADDRESS             DATA                     DATA                ASCII");
+    if quiet {
+        println!("HEXDUMP: {}", filename);
+        if !binary_mode {
+            println!("ADDRESS             DATA                     DATA                ASCII");
+        }
+    }
     loop {
         error_message = "Failed to read from file:".to_string();
         error_message.push_str(filename);
@@ -72,7 +58,7 @@ fn main() {
             break;
         }
 
-        let all_zero = buf.iter().all(|&val| val == 0); // check if all values are 0
+        let all_zero = buf.iter().all(|&val| val == 0); 
         if all_zero {
             if !printed_star {
                 println!("*");
@@ -135,7 +121,6 @@ fn main() {
                 if c.is_ascii_alphanumeric() {
                     print!("\x1B[32m{}\x1B[0m", c);
                 } else {
-                    //print gray dot
                     print!("\x1B[38;5;240m.\x1B[0m");
                 }
             }
