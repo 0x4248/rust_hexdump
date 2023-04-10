@@ -60,7 +60,8 @@ fn main() {
 
     let mut buf = [0; 16];
     let mut address = 0;
-
+    let mut skipln = false;
+    let mut printed_star = false;
     loop {
         error_message = "Failed to read from file:".to_string();
         error_message.push_str(filename);
@@ -70,7 +71,11 @@ fn main() {
         }
 
         if !binary_mode {
-            print!("{:08x} ", address);
+            if color_mode {
+                print!("\x1B[38;5;51m{:08x}\x1B[0m  ", address);
+            } else {
+                print!("{:08x}  ", address);
+            }
         }
 
         for i in 0..16 {
@@ -78,19 +83,19 @@ fn main() {
                 let val = buf[i];
                 if binary_mode {
                     if color_mode {
-                        if val == 0 {
-                            print!("\x1B[38;5;244m{:08b}\x1B[0m ", val);
-                        } else {
+                        if val < 128 && val != 0 {
                             print!("{:08b} ", val);
+                        } else {
+                            print!("\x1B[38;5;240m{:08b}\x1B[0m ", val);
                         }
                     } else {
                         print!("{:08b} ", val);
                     }
                 } else if color_mode {
-                    if val == 0 {
-                        print!("\x1B[38;5;244m{:02x}\x1B[0m ", val);
-                    } else {
+                    if val < 128 && val != 0{
                         print!("{:02x} ", val);
+                    } else {
+                        print!("\x1B[38;5;240m{:02x}\x1B[0m ", val);
                     }
                 } else {
                     print!("{:02x} ", val);
@@ -98,11 +103,10 @@ fn main() {
             } else {
                 print!("   ");
             }
-
             if i == 7 {
                 print!(" ");
             }
-        }
+        }        
 
         if !binary_mode {
             print!(" ");
