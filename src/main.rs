@@ -53,15 +53,18 @@ fn main() {
         println!("File not found: {}", filename);
         return;
     }
-
-    let file = File::open(filename).expect("Failed to open file: {}", filename);
+    let mut error_message = "Failed to open file:".to_string();
+    error_message.push_str(filename);
+    let file = File::open(filename).expect(error_message.as_str());
     let mut reader = BufReader::new(file);
 
     let mut buf = [0; 16];
     let mut address = 0;
 
     loop {
-        let n = reader.read(&mut buf).expect("Failed to read from file {}", filename);
+        error_message = "Failed to read from file:".to_string();
+        error_message.push_str(filename);
+        let n = reader.read(&mut buf).expect(error_message.as_str());
         if n == 0 {
             break;
         }
