@@ -44,10 +44,10 @@ fn main() {
     let mut address = 0;
     let mut printed_star = false;
     let mut c;
-    if quiet {
+    if !quiet {
         println!("HEXDUMP: {}", filename);
         if !binary_mode {
-            println!("ADDRESS             DATA                     DATA                ASCII");
+            println!("ADDRESS            DATA                     DATA                 ASCII");
         }
     }
     loop {
