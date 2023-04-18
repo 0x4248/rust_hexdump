@@ -1,3 +1,9 @@
+/* Rust Hexdump
+ * The hexdump command written in rust.
+ * Github: https://github.com/awesomelewis2007/rust_hexdump
+ * By: Lewis Evans
+*/
+
 use std::env;
 use std::fs::File;
 use std::io::{BufReader, Read};
