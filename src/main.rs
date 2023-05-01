@@ -9,7 +9,7 @@ use std::env;
 use std::fs::File;
 use std::io::{BufReader, Read};
 
-fn print_help(){
+fn print_help() {
     println!("Usage: hexdump [-b -c -bc -h] [FILENAME]");
     println!("\t-b\tBinary mode");
     println!("\t-c\tColor mode");
@@ -65,7 +65,7 @@ fn main() {
             break;
         }
 
-        let all_zero = buf.iter().all(|&val| val == 0); 
+        let all_zero = buf.iter().all(|&val| val == 0);
         if all_zero {
             if !printed_star {
                 println!("*");
@@ -118,7 +118,7 @@ fn main() {
             if i == 7 {
                 print!(" ");
             }
-        }        
+        }
 
         if !binary_mode {
             print!(" ");
