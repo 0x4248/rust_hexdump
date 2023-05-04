@@ -21,12 +21,12 @@ jobs:
       - name: Install dependencies
         run: |
           rustup component add rustfmt
-      - name: Format with Rust fmt
-        run: |
-          cargo fmt
       - name: Git pull
         run: |
           git pull
+      - name: Format with Rust fmt
+        run: |
+          cargo fmt
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: "Format rust code with rustfmt"
