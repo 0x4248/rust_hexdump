@@ -1,7 +1,7 @@
 /* Rust Hexdump
  * The hexdump command written in rust.
  * Github: https://github.com/awesomelewis2007/rust_hexdump
- * Licence: GPL-3.0
+ * Licence: GNU General Public License v3.0
  * By: Lewis Evans
 */
 
