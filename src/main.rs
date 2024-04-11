@@ -2,7 +2,7 @@
  * The hexdump command written in rust.
  * Github: https://github.com/awesomelewis2007/rust_hexdump
  * Licence: GNU General Public License v3.0
- * By: Lewis Evans
+ * By: 0x4248
 */
 
 use std::env;
